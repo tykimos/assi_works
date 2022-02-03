@@ -1,3 +1,2 @@
-
-db/annual_leave_data.csv
-*.db
+db/*
+assi_works_web_config.json
