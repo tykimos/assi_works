@@ -15,12 +15,14 @@ import json
 # 인증
 from oauthlib.oauth2 import WebApplicationClient
 
-with open('assi_works_app_config.json', 'r') as f:
-    assi_works_app_config = json.load(f)
+# 환경설정 / 서비스
+with open('assi_works_web_config.json', 'r') as f:
+    assi_works_web_config = json.load(f)
 
-GOOGLE_CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID", assi_works_app_config['GOOGLE']['GOOGLE_CLIENT_ID'])
-GOOGLE_CLIENT_SECRET = os.environ.get("GOOGLE_CLIENT_SECRET", assi_works_app_config['GOOGLE']['GOOGLE_CLIENT_SECRET'])
-GOOGLE_DISCOVERY_URL = (assi_works_app_config['GOOGLE']['GOOGLE_DISCOVERY_URL'])
+# 환경설정 / 인증
+with open('client_secret_key.json', 'r') as f:
+    client_secret_key = json.load(f)
+
 
 # 애플리케이션
 app = Flask(__name__)
@@ -29,8 +31,8 @@ app.secret_key = 'assi_works'
 login_manager = LoginManager()
 login_manager.init_app(app)
 
-# OAuth2 client setup
-client = WebApplicationClient(GOOGLE_CLIENT_ID)
+
+client = WebApplicationClient(client_secret_key['web']['client_id'])
 
 # 계산 함수
 def calc_assign_annual_leave_count(email, start_date):
@@ -249,7 +251,7 @@ def callback():
         token_url,
         headers=headers,
         data=body,
-        auth=(GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET),
+        auth=(client_secret_key['web']['client_id'], client_secret_key['web']['client_secret']),
     )
  
     # Parse the tokens!
@@ -296,11 +298,11 @@ def logout():
     return redirect(url_for("index"))
 
 def get_google_provider_cfg():
-    return requests.get(GOOGLE_DISCOVERY_URL).json()       
+    return requests.get('https://accounts.google.com/.well-known/openid-configuration').json()       
  
 @login_manager.unauthorized_handler
 def unauthorized():
     return "You must be logged in to access this content.", 403
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=4200, debug=True)
+    app.run(host=assi_works_web_config['service_host'], port=assi_works_web_config['service_port'], ssl_context=assi_works_web_config['service_ssl_context'])
