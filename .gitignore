@@ -2,3 +2,4 @@ db/*
 assi_works_web_config.json
 .DS_Store
 static/.well-known/*
+client_secret_key.json
