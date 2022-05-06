@@ -20,17 +20,9 @@
     <!-- Custom styles for this template -->
     <link href="{{ url_for('static', filename='css/sb-admin-2.min.css') }}" rel="stylesheet">
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    
-    <script>
-        $('#mytype li > a').on('click', function() {
-            // 버튼에 선택된 항목 텍스트 넣기 
-            $('#dropdownMenuButton').text($(this).text());
-                
-            // 선택된 항목 값(value) 얻기
-            alert($(this).attr('value'));
-        });
-    </script>
+    <!-- Custom styles for this page -->
+    <link href="{{ url_for('static', filename='vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+
 </head>
 
 <body id="page-top">
@@ -51,7 +43,7 @@
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link" href="index">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>대시보드</span></a>
@@ -62,71 +54,56 @@
 
             <!-- Heading -->
             <div class="sidebar-heading">
-                현황
+                태스크
             </div>
-
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseOne"
-                    aria-expanded="true" aria-controls="collapseOne">
-                    <i class="fas fa-fw fa-plane"></i>
-                    <span>휴가</span>
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse3"
+                    aria-expanded="true" aria-controls="collapse3">
+                    <i class="fas fa-fw fa-file"></i>
+                    <span>신청/기안/품의</span>
                 </a>
-                <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionSidebar">
+                <div id="collapse3" class="collapse" aria-labelledby="heading3" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">휴가 종류:</h6>
-                        <a class="collapse-item" href="annual_leave">연차</a>
+                        <h6 class="collapse-header">태스트 종류:</h6>
+                        <a class="collapse-item" href="task_general_request_form">일반 신청</a>                        
+                        <a class="collapse-item" href="task_leave_request_form">휴가 신청</a>
                     </div>
                 </div>
             </li>
 
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-
             <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item" active>
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                    aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-laptop"></i>
-                    <span>근무</span>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse4"
+                    aria-expanded="true" aria-controls="collapse4">
+                    <i class="fas fa-fw fa-file"></i>
+                    <span>예정/대기</span>
                 </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div id="collapse4" class="collapse" aria-labelledby="heading4" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">근무 종류:</h6>
-                        <a class="collapse-item" href="holiday_work">휴일근무</a>
+                        <h6 class="collapse-header">예정/대기:</h6>
+                        <a class="collapse-item" href="workorder_scheduled">예정</a>
+                        <a class="collapse-item" href="workorder_wait">대기</a>
                     </div>
                 </div>
             </li>
 
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                전재결재
-            </div>
-
-            <!-- Nav Item - Charts -->
+            <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link" href="https://docs.google.com/forms/d/e/1FAIpQLSci2Vi8_2jldrg1CivLy5QO-UV9EmKssd6q6Fa2OsuUEh6Auw/viewform" target="_blank">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>입체금 청구</span></a>
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse5"
+                    aria-expanded="true" aria-controls="collapse5">
+                    <i class="fas fa-fw fa-file"></i>
+                    <span>성공/실패</span>
+                </a>
+                <div id="collapse5" class="collapse" aria-labelledby="heading5" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">성공/실패:</h6>
+                        <a class="collapse-item" href="workorder_success">성공</a>
+                        <a class="collapse-item" href="workorder_failure">실패</a>
+                    </div>
+                </div>
             </li>
-            <!-- Nav Item - Tables -->
-            <li class="nav-item">
-                <a class="nav-link" href="https://docs.google.com/forms/d/e/1FAIpQLSdizqkJ94NjuT5ZJrHv0WWWbFKtOZgRS4xE-NnvunDWsQ19IQ/viewform" target="_blank">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>법인카드 사용</span></a>
-            </li>
-
-            <!-- Sidebar Message -->
-            <div class="sidebar-card d-none d-lg-flex">
-                <img class="sidebar-card-illustration mb-2" src="{{ url_for('static', filename='af_logo.png') }}" alt="...">
-                <p class="text-center mb-2">우리 플랫폼 보러가기</p>
-                <a class="btn btn-success btn-sm" href="http://aifactory.space">Go to AF</a>
-            </div>
-
         </ul>
         <!-- End of Sidebar -->
 
@@ -214,60 +191,46 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-1 text-gray-800">휴가 신청</h1>
-                    <p class="mb-4">휴가를 신청할 수 있습니다.</p>
+                    <h1 class="h3 mb-2 text-gray-800">{{ meta.item_name }} 태스크</h1>
+                    <p class="mb-4">태스크 목록</p>
 
                     <!-- Content Row -->
                     <div class="row">
-                        <!-- Fade In Utility -->
-                        <div class="col-lg-6">
-                            <div class="card position-relative">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">신청 양식</h6>
-                                </div>
+
+                        <!-- remain annual leave -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2">
                                 <div class="card-body">
-                                    <!-- Dummy Form, on submitting goes nowhere -->
-                                    <form action="">
-                                        <div class="form-group">
-                                            <label>사용일시</label>
-                                            <input class="form-control" type="date">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                개수</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ meta.item_value }}</div>
                                         </div>
-                                        <div class="form-group">
-                                            <label class="my-1 mr-2" for="inlineFormCustomSelectPref">반차/종일</label>
-                                            <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref">
-                                              <option selected>선택...</option>
-                                              <option value="1">오전반차</option>
-                                              <option value="2">오후반차</option>
-                                              <option value="3">종일</option>
-                                            </select>
+                                        <div class="col-auto">
+                                            <i class="fas fa-laptop fa-2x text-gray-300"></i>
                                         </div>
-                                        <div class="form-group">
-                                            <label class="my-1 mr-2" for="inlineFormCustomSelectPref">종류</label>
-                                            <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref">
-                                              <option selected>선택...</option>
-                                              <option value="1">연차</option>
-                                              <option value="2">병가</option>
-                                              <option value="3">경조사휴가</option>
-                                              <option value="4">공적휴가</option>
-                                              <option value="5">방학</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                        </div>                                        
-                                        <div class="form-group">
-                                            <label>사유</label>
-                                            <input class="form-control" type="text" value="개인정비">
-                                        </div>
-                                        <a href="#" class="btn btn-primary btn-user btn-block">
-                                            신청
-                                        </a>
-                                    </form>
+                                    </div>
                                 </div>
+                            </div>
+                        </div>  
+                    </div>
+
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">태스크 목록</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                {{ contents | safe }}
                             </div>
                         </div>
                     </div>
+
                 </div>
                 <!-- /.container-fluid -->
+
             </div>
             <!-- End of Main Content -->
 
@@ -312,7 +275,6 @@
         </div>
     </div>
 
-    
     <!-- Bootstrap core JavaScript-->
     <script src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
@@ -322,6 +284,20 @@
 
     <!-- Custom scripts for all pages-->
     <script src="{{ url_for('static', filename='js/sb-admin-2.min.js') }}"></script>
+
+    <!-- Page level plugins -->
+    <script src="{{ url_for('static', filename='vendor/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="{{ url_for('static', filename='js/demo/datatables-demo.js') }}"></script>
+
+    <!-- Page level plugins -->
+    <script src="{{ url_for('static', filename='vendor/chart.js/Chart.min.js') }}"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="{{ url_for('static', filename='js/demo/chart-area-demo.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/demo/chart-pie-demo.js') }}"></script>
 
 </body>
 

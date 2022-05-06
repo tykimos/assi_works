@@ -10,16 +10,27 @@
     <meta name="author" content="">
 
     <title>어시</title>
-    
-    <!-- Custom fonts for this template-->
+
+    <!-- Custom fonts for this template -->
     <link href="{{ url_for('static', filename='vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
 
-    <!-- Custom styles for this template-->
+    <!-- Custom styles for this template -->
     <link href="{{ url_for('static', filename='css/sb-admin-2.min.css') }}" rel="stylesheet">
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    
+    <script>
+        $('#mytype li > a').on('click', function() {
+            // 버튼에 선택된 항목 텍스트 넣기 
+            $('#dropdownMenuButton').text($(this).text());
+                
+            // 선택된 항목 값(value) 얻기
+            alert($(this).attr('value'));
+        });
+    </script>
 </head>
 
 <body id="page-top">
@@ -188,52 +199,72 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">대시보드</h1>
-                    </div>
+                    <h1 class="h3 mb-1 text-gray-800">일반 신청</h1>
+                    <p class="mb-4">일반 업무를 신청할 수 있습니다.</p>
 
+                    <form action="{{ url_for('task_general_request') }}" method = "POST">                    
                     <!-- Content Row -->
                     <div class="row">
-
-                        <!-- remain annual leave -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
+                        <!-- Fade In Utility -->
+                        <div class="col-lg-6">
+                            <div class="card position-relative">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">신청 양식</h6>
+                                </div>
                                 <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                예정 워크</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ meta.wos_scheduled_count }}</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
-                                        </div>
+                                    <div class="form-group">
+                                        <label>내용</label>
+                                        <input class="form-control" type="text" value="내용" name="task_comment">
                                     </div>
+                                    <input type = "submit" value = "신청" class="btn btn-primary btn-user btn-block"/>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- annual leave progress-->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-info shadow h-100 py-2">
+                        <div class="col-lg-6">
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">워크플로우</h6>
+                                </div>
                                 <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">대기 워크
+                                    <div class="form-group">
+                                        {% for itn in range(0, 7) %}
+                                        <div class="form-row mb-3">
+                                            <label for="inputEmail4" class="col-sm-2 col-form-label"> {{ itn + 1 }} : </label>
+                                            <div class="col-md-4">
+                                                <select class="custom-select" id="inlineFormCustomSelectPref" name = "wo_type_{{ itn + 1 }}">
+                                                    <option value="null" selected>선택...</option>
+                                                    {% for it in workorder_type_list %}
+                                                        {% if (itn < prefill_workflow_contents|length) and it[0] == prefill_workflow_contents[itn][2] %}
+                                                        <option value="{{ it[0] }}" selected>{{ it[1] }}</option>
+                                                        {% else %}
+                                                        <option value="{{ it[0] }}">{{ it[1] }}</option>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </select>
                                             </div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ meta.wos_wait_count }}</div>
+                                            <div class="col-md-6">
+                                                <select class="custom-select" id="inlineFormCustomSelectPref" name = "wo_user_{{ itn + 1 }}">
+                                                    <option value="null" selected>선택...</option>
+                                                    {% for it in user_list %}
+                                                        {% if (itn < prefill_workflow_contents|length) and it[0] == prefill_workflow_contents[itn][1] %}
+                                                            <option value="{{ it[0] }}" selected>{{ it[1] }}</option>
+                                                        {% else %}
+                                                        <option value="{{ it[0] }}">{{ it[1] }}</option>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </select>    
+                                            </div>    
                                         </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-clock-o fa-2x text-gray-300"></i>
-                                        </div>
+                                        {% endfor %}
                                     </div>
                                 </div>
                             </div>
-                        </div>               
+                        </div>
                     </div>
+                    </form>
                 </div>
                 <!-- /.container-fluid -->
-
             </div>
             <!-- End of Main Content -->
 
@@ -241,7 +272,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; assi </span>
+                        <span>Copyright &copy; assi</span>
                     </div>
                 </div>
             </footer>
@@ -278,6 +309,7 @@
         </div>
     </div>
 
+    
     <!-- Bootstrap core JavaScript-->
     <script src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
@@ -287,13 +319,6 @@
 
     <!-- Custom scripts for all pages-->
     <script src="{{ url_for('static', filename='js/sb-admin-2.min.js') }}"></script>
-
-    <!-- Page level plugins -->
-    <script src="{{ url_for('static', filename='vendor/chart.js/Chart.min.js') }}"></script>
-
-    <!-- Page level custom scripts -->
-    <script src="{{ url_for('static', filename='js/demo/chart-area-demo.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/demo/chart-pie-demo.js') }}"></script>
 
 </body>
 
